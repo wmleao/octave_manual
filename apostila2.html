@@ -1,0 +1,301 @@
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apostila Octave — Aula 01</title>
+
+  <!-- Prism for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-matlab.min.js"></script>
+
+
+  <style>
+    :root {
+      --nav-bg: #1f2937;
+      --nav-text: #eef2f7;
+      --accent: #0ea5a4;
+      --content-max: 980px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #fafafa;
+      color: #111
+    }
+
+    /* Barra lateral fixa */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background-color: #2c3e50;
+      color: white;
+      overflow-y: auto;
+      padding: 15px;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    nav.hidden {
+      transform: translateX(-240px);
+    }
+
+    nav h2 {
+      font-size: 16px;
+      margin-top: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin: 8px 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Conteúdo principal */
+    main {
+      margin-left: 260px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    main.full {
+      margin-left: 20px;
+    }
+
+    section {
+      margin-bottom: 50px;
+    }
+
+    /* Área de detecção do mouse (sempre visível) */
+    #hover-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 15px;
+      /* largura da zona de ativação */
+      height: 100%;
+      z-index: 1500;
+      /* acima do conteúdo */
+      background: transparent;
+      /* invisível */
+    }
+
+    p.lead {
+      margin-top: 0;
+      color: #374151
+    }
+
+    /* code blocks */
+    pre {
+      position: relative;
+      padding: 18px;
+      border-radius: 6px;
+      overflow: auto;
+      background: #f5f7fa
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 0;
+      background: var(--accent);
+      color: white;
+      cursor: pointer
+    }
+
+    .copy-btn:active {
+      transform: translateY(1px)
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Área invisível que detecta aproximação do mouse -->
+  <div id="hover-area"></div>
+
+  <!-- Barra lateral -->
+  <nav id="sidebar">
+    <h2>📚 Seções</h2>
+    <ul>
+      <li><a href="#introducao">1.Componentes do Octave GUI</a></li>
+      <li><a href="#caracteristicas">2.Características da Linguagem</a></li>
+      <li><a href="#constantes">3. Constantes, Variáveis e Complexos</a></li>
+      <li><a href="#entrada">4. Entrada e Saída</a></li>
+      <li><a href="#ambientes">5. Ambientes Textuais e Gráficos</a></li>
+      <li><a href="#expressoes">6. Expressões, Funções e Comandos</a></li>
+      <li><a href="#vetores">7. Vetores e Matrizes</a></li>
+      <li><a href="#polinomios">8. Polinômios</a></li>
+      <li><a href="#exercicios">9. Exercicios para fixação</a></li>
+    </ul>
+  </nav>
+
+  <!-- Conteúdo -->
+  <main id="content">
+    <section id="introducao">
+      <h2 class="section-title">1. Componentes do Octave GUI</h2>
+      <p class="lead">Demonstração rápida do GNU Octave: janela de comandos, editor, histórico, ambiente de trabalho,
+        navegador de arquivos e ajuda. Ajuste de layout e preferências.</p>
+
+      <p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Gnu-octave-logo.svg" alt="GNU Octave Logo"
+          style="max-width:250px;display:block;margin-bottom:15px;">
+      </p>
+
+
+      <p>
+        <img src="octave_gui.png" alt="GNU Octave Logo" style="max-width:1250px;display:block;margin-bottom:15px;">
+      </p>
+
+
+      <p> As janelas podem ser omitidas ou visualizadas a partir da barra de tarefas em <strong>Janelas>>Exibir Editor</strong> por exemplo.
+      </p>
+
+    </section>
+
+    <section id="caracteristicas">
+      <h2 class="section-title">2.Características da Linguagem</h2>
+      <p>Resumo objetivo:</p>
+      <ul>
+        <li><strong>Tipagem:</strong> dinâmica (como Python) — diferentemente de C (estática).</li>
+        <li><strong>Paradigma:</strong> interpretada, voltada a operações matriciais e cálculo numérico (sem
+          compilação explícita como em C).</li>
+        <li><strong>Sintaxe:</strong> mais direta para álgebra matricial que C; é similar ao MATLAB em muitas
+          construções.</li>
+      </ul>
+      <p class="lead">Exemplo: multiplicação de matrizes é direto — sem loops explícitos:</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Multiplicação matricial (Octave/Matlab)
+A = [1 0 1; -2 1 0; 1 2 2];
+B = [1 1 1; -1 5 4; 0 2 1];
+C = A * B;
+size(C)
+</code></pre>
+    </section>
+
+    <section id="constantes">
+      <h2 class="section-title">3. Constantes, Variáveis e Números Complexos</h2>
+      <p class="lead">Trabalhando com números complexos, parte real, imaginária, módulo e fase.</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Números complexos e operações
+x = 3 + 4i;
+real_part = real(x);
+imag_part = imag(x);
+modulo = abs(x);
+fase = angle(x);
+
+% Funções trigonométricas
+s1 = sin(pi/2);
+c1 = cos(pi);
+t1 = tan(pi/4);
+</code></pre>
+
+      <p><strong>Exercício:</strong> calcular módulo e fase de z = -2 + 2i.</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">z = -2 + 2i;
+abs(z)
+angle(z)</code></pre>
+
+      <p>Valores especiais:</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Inf e NaN
+1/0    % Inf
+0/0    % NaN
+sqrt(-1) % se não usar complexos, retorna NaN
+</code></pre>
+    </section>
+
+    <section id="entrada">
+      <h2 class="section-title">4. Entrada e Saída</h2>
+      <p class="lead">Leitura via keyboard e exibição formatada.</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Entrada e saída
+x = input
+</code></pre>
+    </section>
+
+
+    </section>
+
+    <section id="entrada">
+      <h2 class="section-title">4. Entrada e Saída</h2>
+      <p class="lead">Leitura via keyboard e exibição formatada.</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Entrada e saída
+x = input
+</code></pre>
+    </section>
+
+    <section id="ambientes">
+      <h2 class="section-title">5. Ambientes Textuais e Gráficos</h2>
+      <p class="lead">Entrada e saída</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">
+x = 0:0.1:2*pi;
+y = sin(x);
+plot(x, y)
+title('Seno de x')
+xlabel('x'), ylabel('sin(x)')
+</code></pre>
+    </section>
+
+
+  </main>
+
+  <script>
+    /* copiar texto do bloco de código */
+    function copiarCodigo(btn) {
+      // O botão está dentro do <pre>; o código é o próximo elemento <code> ou filho
+      const pre = btn.parentElement;
+      const code = pre.querySelector('code');
+      if (!code) return;
+      const text = code.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.innerText;
+        btn.innerText = "✅ Copiado!";
+        setTimeout(() => btn.innerText = original, 1600);
+      }).catch(() => {
+        alert('Erro ao copiar. Tente manualmente.');
+      });
+    }
+
+    /* melhora: liga Prism novamente caso conteúdo seja modificado dinamicamente */
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.Prism) Prism.highlightAll();
+    });
+  </script>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const hoverArea = document.getElementById('hover-area');
+    const content = document.getElementById('content');
+
+    // Oculta a barra lateral quando o mouse sai dela
+    sidebar.addEventListener('mouseleave', () => {
+      sidebar.classList.add('hidden');
+      content.classList.add('full');
+    });
+
+    // Mostra a barra lateral quando o mouse se aproxima da borda esquerda
+    hoverArea.addEventListener('mouseenter', () => {
+      sidebar.classList.remove('hidden');
+      content.classList.remove('full');
+    });
+  </script>
+
+</body>
+
+</html>
