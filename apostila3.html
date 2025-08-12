@@ -1,0 +1,470 @@
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apostila Octave — Aula 01</title>
+
+  <!-- Prism for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-matlab.min.js"></script>
+
+
+  <link rel="stylesheet" href="estilos.css" />
+
+</head>
+
+<body>
+
+  <!-- Área invisível que detecta aproximação do mouse -->
+  <div id="hover-area"></div>
+
+  <!-- Barra lateral -->
+  <nav id="sidebar">
+    <h2>📚 Seções</h2>
+    <ul>
+      <li><a href="#introducao">1.Componentes do Octave GUI</a></li>
+      <li><a href="#caracteristicas">2.Características da Linguagem</a></li>
+      <li><a href="#constantes">3. Constantes, Variáveis e Complexos</a></li>
+      <li><a href="#entrada">4. Entrada e Saída</a></li>
+      <li><a href="#ambientes">5. Ambientes Textuais e Gráficos</a></li>
+      <li><a href="#expressoes">6. Expressões, Funções e Comandos</a></li>
+      <li><a href="#vetores">7. Vetores e Matrizes</a></li>
+      <li><a href="#polinomios">8. Polinômios</a></li>
+      <li><a href="#exercicios">9. Exercicios para fixação</a></li>
+    </ul>
+  </nav>
+
+  <!-- Conteúdo -->
+  <main id="content">
+    <section id="introducao">
+      <div style="display:flex;align-items:center;gap:15px;">
+        <h2 class="section-title" style="margin:0;">1. Componentes do Octave GUI</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Gnu-octave-logo.svg"
+             alt="GNU Octave Logo"
+             style="max-width:60px;height:auto;">
+      </div>
+    
+      <p class="lead">
+        O GNU Octave GUI (<em>Graphical User Interface</em>) é a interface gráfica do GNU Octave, um software livre
+        para cálculos numéricos compatível com a sintaxe do MATLAB. Essa interface fornece um ambiente visual amigável,
+        reunindo em uma única janela:
+      </p>
+      <ul>
+        <li><strong>Navegador de Arquivos</strong> – facilita o acesso aos arquivos do projeto.</li>
+        <li><strong>Histórico de Comandos</strong> – registra tudo que foi executado.</li>
+        <li><strong>Editor</strong> – para escrever, salvar e executar programas <code>.m</code>.</li>
+        <li><strong>Janela de Comandos</strong> – para executar instruções interativamente.</li>
+        <li><strong>Ambiente de Trabalho <i>(Workspace)</i></strong> – mostra os valores e tipos da variáveis criadas.</li>    
+        <li><strong>Documentação</strong> – oferece documentos para orientação e exemplificação da linguagem.</li>
+      </ul>
+      <p>
+        O Octave GUI facilita o trabalho, pois permite alternar rapidamente entre edição, execução e análise de resultados,
+        sem precisar memorizar todos os comandos ou gerenciar janelas separadas.
+      </p>
+    
+      <p>
+        <img src="octave_gui.png" alt="GNU Octave GUI"
+             style="max-width:1240px;display:block;margin-bottom:15px;">
+      </p>
+    
+      <p>
+        As janelas podem ser omitidas ou visualizadas a partir da barra de tarefas em
+        <strong>Janelas &gt;&gt; Exibir Editor</strong>, por exemplo.
+      </p>
+
+      <p>
+        Além disso, o Octave GUI permite reorganizar as janelas livremente: basta clicar e arrastar o título da janela para
+        uma nova posição. Elas podem ser encaixadas em diferentes regiões da interface, empilhadas como abas ou destacadas
+        como janelas flutuantes. Isso possibilita criar um layout personalizado que se adapte ao seu fluxo de trabalho.
+      </p>
+      <h3>🎨 Personalizando cores no editor</h3>
+      <p>
+        O GNU Octave GUI permite mudar as cores usadas no <strong>Editor de Scripts</strong> para facilitar a leitura do código.
+        Para alterar:
+      </p>
+      <ol>
+        <li>Vá em <strong>Editar → Preferências → Aparência → Tema do Editor</strong>.</li>
+        <li>Escolha um tema pronto (claro ou escuro) <strong>ou</strong> clique em <strong>Personalizar</strong> para ajustar individualmente as cores de texto normal, comentários, strings (<strong> % </strong>), números e palavras-chave (<code>if</code>, <code>for</code>, <code>end</code>, etc.).</li>
+        <li>Clique em <strong>OK</strong> para aplicar.</li>
+      </ol>
+      <p>💡 Dica: um contraste alto entre texto e fundo melhora a leitura e reduz fadiga visual.</p>
+    </section>
+    
+
+    <section id="caracteristicas">
+      <h2 class="section-title">2.Características da Linguagem</h2>
+      <p>Resumo objetivo:</p>
+      <ul>
+        <li><strong>Tipagem:</strong> dinâmica (como Python) — diferentemente de C (estática).</li>
+        <li><strong>Paradigma:</strong> interpretada, voltada a operações matriciais e cálculo numérico (sem
+          compilação explícita como em C).</li>
+        <li><strong>Sintaxe:</strong> mais direta para álgebra matricial que C; é similar ao MATLAB em muitas
+          construções.</li>
+      </ul>
+      <p class="lead">Exemplo: multiplicação de matrizes é direto — sem loops explícitos:</p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">
+clc, clear
+% Multiplicação matricial (Octave/Matlab)
+A = [1 0 1; -2 1 0; 1 2 2];
+B = [1 1 1; -1 5 4; 0 2 1];
+C = A * B;
+size(C)
+</code></pre>
+
+<h3>🔠 Sensibilidade a maiúsculas e minúsculas</h3>
+<p>
+  A linguagem do GNU Octave é <strong>case-sensitive</strong>, ou seja, diferencia letras maiúsculas de minúsculas
+  em nomes de variáveis, funções e comandos. Por exemplo, as variáveis <code>Valor</code> e <code>valor</code> são
+  consideradas diferentes:
+</p>
+<pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">valor = 5;
+Valor = 10;
+disp(valor); % 5
+disp(Valor); % 10
+</code></pre>
+
+<h3>💬 Comentando linhas e blocos de código</h3>
+<p> Comentários servem para documentar o código e não são executados. No Octave, assim como no MATLAB, existem duas formas principais: </p>
+<ul>
+  <li><strong>Comentário de linha única:</strong> use o símbolo <code>%</code> — tudo após ele na mesma linha será ignorado.
+    <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab"> % Este é um comentário
+x = 5; % comentário ao lado do código </code></pre>
+  </li>
+  <li><strong>Comentário de bloco:</strong> use <code>%{</code> para iniciar e <code>%}</code> para terminar.
+    <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab"> %{
+Este é um bloco de comentário
+que pode ter várias linhas
+e é ignorado na execução.
+%} </code></pre>
+  </li>
+</ul>
+    <p>
+      💡 <strong>Recomendação:</strong> adote o mesmo padrão de comentários usado no MATLAB para garantir que seus scripts
+      possam ser reutilizados diretamente em ambos os ambientes sem precisar de ajustes.
+    </p>
+    </section>
+
+
+
+    <section id="constantes">
+      <h2 class="section-title">3. Constantes, Variáveis e Números Complexos</h2>
+      <p class="lead">
+        No Octave, uma <strong>constante</strong> é um valor fixo (como <code>pi</code> ou <code>e</code>), e uma
+        <strong>variável</strong> é um nome associado a um valor que pode mudar durante a execução do programa.
+        Por padrão, todos os números reais digitados no Octave são armazenados como <strong>double</strong>
+        (ponto flutuante de dupla precisão, 64 bits). Além disso, o Octave trabalha com <strong>números complexos</strong>,
+        que possuem parte real e parte imaginária, ambos também do tipo <code>double</code>.
+      </p>
+    
+      <p>
+        Abaixo, um exemplo de criação e manipulação de números complexos, com funções para obter a parte real,
+        parte imaginária, módulo (magnitude) e fase (ângulo em radianos):
+      </p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Criando um número complexo
+x = 3 + 4i;             % tipo double complexo
+
+% Obtendo componentes
+real_part = real(x);    % parte real
+imag_part = imag(x);    % parte imaginária
+modulo = abs(x);        % módulo (raiz da soma dos quadrados)
+fase = angle(x);        % fase em radianos
+
+% Funções trigonométricas (retornam double)
+s1 = sin(pi/2);         % seno
+c1 = cos(pi);           % cosseno
+t1 = tan(pi/4);         % tangente
+
+% Operações com números complexos
+z1 = 2 + 3i;
+z2 = -1 + 4i;
+z3 = z1 + z2;           % soma
+z4 = z1 * z2;           % multiplicação
+z5 = z1 / z2;           % divisão
+z6 = z1^2;              % potência</code> </pre>
+    
+<p>
+  <strong>Exemplo:</strong> Cálculo do módulo e da fase de <strong>z = -2 + 2i</strong>:
+</p>
+<pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">z = -2 + 2i;
+abs(z)     % módulo
+angle(z)   % fase (em radianos)</code></pre>
+    
+      <p>
+        O Octave também possui valores especiais para representar resultados matematicamente indefinidos ou fora do intervalo numérico:
+      </p>
+      <ul>
+        <li><strong><code>Inf</code></strong> (*infinito*): gerado, por exemplo, em divisões por zero ou operações que excedem o limite máximo do tipo <code>double</code>.  
+            Exemplo: <code>1/0</code> resulta em <code>Inf</code>.
+        </li>
+        <li><strong><code>NaN</code></strong> (*Not a Number*): representa resultados indefinidos ou não numéricos.  
+            Exemplo: <code>0/0</code> ou <code>sqrt(-1)</code> (quando não se está usando notação complexa) retornam <code>NaN</code>.
+        </li>
+      </ul>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab"> % Exemplos de Inf e NaN
+1/0        % Inf — infinito positivo
+-1/0       % -Inf — infinito negativo
+0/0        % NaN — resultado indefinido
+sqrt(-1)   % NaN se não usar notação complexa (i ou j)
+</code></pre>
+    </section>
+    
+
+
+
+    <section id="entrada">
+      <h2 class="section-title">4. Entrada e Saída</h2>
+      <p class="lead">
+        No Octave, a <strong>entrada</strong> de dados pode ser feita pelo teclado usando a função <code>input</code>,
+        enquanto a <strong>saída</strong> de informações pode ser exibida de forma simples com <code>disp</code> ou
+        de forma formatada com <code>fprintf</code>.
+      </p>
+    
+      <h3>📥 Entrada de dados</h3>
+      <p>
+        A função <code>input</code> solicita ao usuário um valor digitado no teclado.  
+        Ela pode receber um texto como parâmetro para exibir como mensagem de solicitação:
+      </p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Entrada simples (sem mensagem)
+x = input('Digite um número: ');
+
+% Entrada forçando interpretação como string
+nome = input('Digite seu nome: ', 's'); </code></pre>
+    
+      <h3>📤 Saída de dados</h3>
+      <p>
+        A função <code>disp</code> exibe valores ou textos sem formatação avançada:
+      </p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Saída simples com disp
+disp(['O valor de x ao quadrado é ', num2str(x^2)]) </code></pre>
+    
+      <p>
+        Para controle de formatação (número de casas decimais, alinhamento, etc.), use <code>fprintf</code>:
+      </p>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Saída formatada com fprintf
+fprintf('O valor de x ao quadrado é %.2f\n', x^2) </code></pre>
+    
+      <h3>ℹ️ Observações importantes</h3>
+      <ul>
+        <li><code>num2str</code> converte números para texto (string), permitindo concatená-los com mensagens em <code>disp</code>.</li>
+        <li><code>fprintf</code> usa especificadores como <code>%.2f</code> (número decimal com 2 casas), <code>%d</code> (inteiro), <code>%s</code> (string).</li>
+        <li>O Octave é <strong>case-sensitive</strong>: <code>input</code> e <code>Input</code> são nomes diferentes.</li>
+      </ul>
+    </section>
+    
+
+
+
+    <section id="ambientes">
+      <h2 class="section-title">5. Ambientes Textuais e Gráficos</h2>
+      <p class="lead">
+        O Octave pode trabalhar tanto em modo <strong>textual</strong> (comandos e resultados apenas em texto) quanto em modo <strong>gráfico</strong>, permitindo a visualização de dados em gráficos 2D e 3D.
+      </p>
+    
+      <h3>📊 Exemplo de gráfico simples</h3>
+      <p>
+        O exemplo abaixo gera e exibe o gráfico da função seno.  
+        A variável <code>x</code> é criada como um vetor de 0 a <code>2π</code> com incremento de 0.1,  
+        e <code>y</code> recebe o valor de <code>sin(x)</code> para cada elemento do vetor:
+      </p>
+    
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">x = 0:0.1:2*pi;    % cria vetor de 0 a 2π, passo de 0.1
+y = sin(x);         % calcula seno de cada elemento de x
+
+plot(x, y)          % plota y em função de x (gráfico de linhas)
+title('Seno de x')  % adiciona título ao gráfico
+xlabel('x')         % rótulo do eixo X
+ylabel('sin(x)')    % rótulo do eixo Y
+grid on             % ativa a grade no gráfico </code></pre>
+    
+      <h3>🎨 Personalizando gráficos</h3>
+      <ul>
+        <li>Você pode mudar cor e estilo da linha: <code>plot(x, y, 'r--')</code> → linha vermelha tracejada.</li>
+        <li>Adicionar marcadores: <code>plot(x, y, 'bo-')</code> → círculos azuis conectados por linha contínua.</li>
+        <li>Vários gráficos no mesmo eixo: </li>
+      </ul>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">plot(x, sin(x), 'b', x, cos(x), 'r')</code></pre>
+      <h3>ℹ️ Observações importantes</h3>
+      <ul>
+        <li>O Octave abre uma janela de figura separada para exibir gráficos.</li>
+        <li>É possível salvar gráficos com: ou <code>print -dpng 'grafico.png'</code>.</li>
+      </ul>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">saveas(gcf, 'grafico1.png')
+%ou
+print -dpng 'grafico2.png' </code> </pre>
+
+<p>
+  No Octave, as janelas gráficas abertas (plots) podem ser fechadas com o comando <code> close all </code>.
+</p>
+    </section>
+    
+
+
+
+    <section id="expressoes">
+      <h2 class="section-title">6. Expressões, Funções Nativas e Comandos Básicos</h2>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">a = 5;
+b = sqrt(a);   % raiz quadrada
+c = log(a);    % logaritmo natural </code> </pre>
+      <h3>Comandos úteis</h3>
+      <p>Confira alguns comandos nativos básicos muito usados no Octave/MATLAB:</p>
+      <ul>
+        <li><code>disp</code> — exibe mensagens ou variáveis no console;</li>
+        <li><code>input</code> — solicita entrada do usuário;</li>
+        <li><code>clear</code> — limpa variáveis da memória;</li>
+        <li><code>clc</code> — limpa a tela do console;</li>
+        <li><code>help</code> — exibe ajuda sobre funções;</li>
+        <li><code>who</code> — lista variáveis no workspace;</li>
+        <li><code>whos</code> — lista variáveis com detalhes (tipo, tamanho).</li>
+      </ul>
+    </section>
+    
+
+
+    <section id="vetores">
+      <h2 class="section-title">7. Vetores e Matrizes</h2>    
+      <h3>Vetores</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Criação de vetores linha e coluna
+v1 = [10 20 30 40];     % vetor linha
+v2 = [10; 20; 30; 40];  % vetor coluna
+v3 = 1:0.5:3;           % vetor com passo 0.5
+
+% Indexação
+v1(2)       % 2º elemento do vetor v1 (20)
+v1(2:4)     % elementos do 2 ao 4 ([20 30 40])
+v1(end)     % último elemento do vetor (40)
+
+% Operações elementares
+v1 + 2      % soma 2 a cada elemento
+v1 .* v1    % multiplicação elemento a elemento
+v1 .* v2'   % multiplicação elemento a elemento (v2' é transposto)
+v1 * v2     % produto escalar (resulta em número)
+length(v1)  % comprimento do vetor (4) </code> </pre>
+    
+      <h3>Matrizes</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Criação de matrizes
+A = [1 0 1; -2 1 0; 1 2 2];
+B = [1 1 1; -1 5 4; 0 2 1];
+
+% Operações com matrizes
+A + B       % soma elemento a elemento
+A * B       % multiplicação matricial
+A .* B      % multiplicação elemento a elemento
+A2 = A'     % transposta da matriz A
+det(A)      % determinante de A
+inv(A)      % inversa de A (se existir)
+size(A)     % tamanho da matriz (linhas x colunas)
+
+% Manipulação de matrizes
+A(1, :)     % 1ª linha inteira
+A(:, 2)     % 2ª coluna inteira
+A(2, 3)     % elemento da 2ª linha, 3ª coluna
+A(3, :) = [] % remove a 3ª linha </code> </pre>
+    
+      <p><strong>Dica:</strong> Vetores são matrizes com uma única linha ou coluna. Dominar indexação e operações matriciais é fundamental para trabalhar com dados e sistemas em MATLAB/Octave.</p>
+    </section>
+    
+
+    <section id="polinomios">
+      <h2 class="section-title">8. Polinômios</h2>
+    
+      <h3>Definição por coeficientes</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Definição do polinômio p(x) = x² - 3x + 2
+p = [1 -3 2];       
+
+% Encontrar as raízes do polinômio
+r = roots(p);
+disp('Raízes do polinômio:');
+disp(r);</code> </pre>
+      <p>
+        Os coeficientes do vetor <code>p</code> representam os termos do polinômio em ordem decrescente das potências de <code>x</code>.
+      </p>
+    
+      <h3>Definição pelas raízes</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Definição do polinômio a partir das raízes r = 1 e r = 2
+r = [1 2];       
+
+% Coeficientes do polinômio resultante: (x - 1)(x - 2) = x² - 3x + 2
+p2 = poly(r);
+disp('Coeficientes do polinômio a partir das raízes:');
+disp(p2);</code> </pre>
+      <p>
+        A função <code>poly</code> cria o vetor de coeficientes a partir das raízes dadas, facilitando a reconstrução do polinômio.
+      </p>
+    
+      <h3>Avaliação de polinômios</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Avaliar o polinômio p no ponto x = 4
+x = 4;
+valor = polyval(p, x);
+fprintf('p(%d) = %.2f\n', x, valor); </code> </pre>
+      <p>
+        <code>polyval</code> é usado para calcular o valor do polinômio para um dado <code>x</code>, útil para plotar curvas ou resolver problemas numéricos.
+      </p>
+    
+      <h3>Operações comuns com polinômios</h3>
+      <ul>
+        <li><code>conv(p1, p2)</code> — produto de dois polinômios (convolução dos coeficientes);</li>
+        <li><code>deconv(p1, p2)</code> — divisão polinomial, retorna quociente e resto;</li>
+        <li><code>roots(p)</code> — encontra raízes do polinômio <code>p</code>;</li>
+        <li><code>polyval(p, x)</code> — avalia o polinômio <code>p</code> no ponto(s) <code>x</code>.</li>
+      </ul>
+    
+      <h3>Dicas práticas</h3>
+      <ul>
+        <li>Tenha cuidado com a ordem dos coeficientes — sempre do termo de maior para o menor grau.</li>
+        <li>Para polinômios de grau alto, use <code>roots</code> com atenção, pois erros numéricos podem ocorrer.</li>
+        <li>Use <code>polyval</code> para avaliar polinômios em vetores de pontos e criar gráficos.</li>
+      </ul>
+    
+      <h3>Exemplo completo: avaliação e gráfico</h3>
+      <pre><button class="copy-btn" onclick="copiarCodigo(this)">📋 Copiar</button><code class="language-matlab">% Define o polinômio p(x) = x^2 - 3x + 2
+p = [1 -3 2];
+
+% Gera um vetor de valores de x para plotagem
+x = linspace(0, 3, 100);
+
+% Avalia o polinômio em cada ponto de x
+y = polyval(p, x);
+
+% Plota o gráfico
+plot(x, y, 'b-', 'LineWidth', 2);
+hold on;
+
+% Marca as raízes no gráfico
+r = roots(p);
+plot(r, zeros(size(r)), 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r');
+    
+% Configurações do gráfico
+grid on;
+xlabel('x');
+ylabel('p(x)');
+title('Gráfico do polinômio p(x) = x^2 - 3x + 2');
+legend('p(x)', 'Raízes');
+hold off; </code> </pre>
+      <p>
+        Este script mostra como avaliar um polinômio em vários pontos para gerar um gráfico e também destaca as raízes com marcadores vermelhos.
+      </p>
+    </section>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  </main>
+
+<script src="funcoes.js"></script>
+
+</body>
+
+</html>
